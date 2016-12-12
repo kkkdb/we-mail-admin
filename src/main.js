@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from './routers/App.vue';
+import App from './App.vue';
 import router from './router.js';
 
 // 开启debug模式

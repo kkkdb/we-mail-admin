@@ -33,18 +33,16 @@
 </template>
 
 <script>
-import API from '../common/API'
-import Http from '../common/Http'
-import {setCookie, getCookie, deleteCookie} from '../common/Cookie'
+import api from '../common/api'
+import http from '../common/http'
+import {setCookie, getCookie, deleteCookie} from '../common/cookie'
 import {hex_md5} from '../common/md5'
 
 export default {
-    ready: function() {
+    mounted: function() {
         var _self = this;
-        if(getCookie("pmsUserName")){
-            _self.$route.router.go({name: 'home'});
-        }else{
-            return;
+        if(getCookie("username")){
+            _self.$router.push({name: 'home'});
         }
     },
     data: function() {
@@ -65,34 +63,31 @@ export default {
                 });
                 return false;
             }
-            setCookie({AccessToken: '',AccessIp: '::1',AccessType:'shopadmin'},function(){});
-            // var password = hex_md5(_self.userInfo.password);
-            var password = _self.userInfo.password;
+            // setCookie({AccessToken: '',AccessIp: '::1',AccessType:'shopadmin'},function(){});
 
-            var loading = layer.load(1);
-            _self.$http.post(API.login,{
-                'username': _self.userInfo.userName,
-                'password': password
-            }).then((res) => {
-                layer.close(loading);
-                _self.errorMsg = '';
-                var data = res.data;
-                if (data.result=='ok') {
-                    var ci_session = data.access_token.split('-')[0];
-                    deleteCookie(function(){
-                        setCookie({username:_self.userInfo.userName, password: _self.userInfo.password,pmsUserName: _self.userInfo.userName,AccessToken: data.access_token,AccessIp: '::1',AccessType:'shopadmin',ci_session: ci_session}, function() {
-                            _self.$route.router.go({name: 'home'});
-                        });
-                    })
-                }else{
-                    _self.errorMsg = '账号密码错误';
-                }
-            }, (res) => {
-                layer.close(loading);                
-                layer.msg("当前网络太差，请稍后重试",{
-                    'time': 1200
-                });
-            })
+            // http({
+            //     type: 'post',
+            //     url: api.login,
+            //     data: {
+            //         'username': _self.userInfo.userName,
+            //         'password': _self.userInfo.password
+            //     },
+            //     success: function(data){
+            //         var ci_session = data.access_token.split('-')[0];
+            //         deleteCookie(function(){
+            //             setCookie({username:_self.userInfo.userName, password: _self.userInfo.password,AccessToken: data.access_token,AccessIp: '::1',AccessType:'shopadmin',ci_session: ci_session}, function() {
+            //                 _self.$route.router.go({name: 'home'});
+            //             });
+            //         })
+            //     },
+            //     fail: function(data){
+            //         _self.errorMsg = '账号密码错误';
+            //     }
+            // })
+
+            setCookie({userName:'dbkong', password: '1',AccessToken: '111111',AccessIp: '::1',AccessType:'shopadmin',ci_session: '222'}, function() {
+                _self.$router.push({name: 'home'});
+            });
         }
     }
 }

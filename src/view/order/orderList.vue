@@ -1,23 +1,28 @@
-<!-- 首页 -->
 <template>
     <div class="content-wrapper">
         <!-- Content Header -->
         <section class="content-header">
-            <h1>欢迎进入微商城后台管理系统, <strong class="text-green" v-text="userName"></strong></h1>
+            <h1>订单列表</h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 订单</a></li>
+                <li class="active">订单列表</li>
+            </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
             <div class="row">
-            
             </div>
         </section>
-
     </div>
 </template>
 
 <script>
-import {getCookie} from '../../common/Cookie.js'
+import api from '../../common/api'
+import http from '../../common/http'
+import {getCookie} from '../../common/cookie'
+
+var vm = '';
 
 export default {
     mounted: function() {
@@ -25,18 +30,15 @@ export default {
             'min-height': $(document).height() - $(".main-header").height() + 'px', 
             'margin-top': $(".main-header").height()
         });
-
-        if(getCookie("wmsUserName")){
-            this.userName = getCookie("wmsUserName");
-        }else{
-            this.$router.push({name: 'login'});
-        }
-
+        vm = this;
     },
     data: function() {
         return {
-            "userName": ''
+            
         }
+    },
+    methods: {
+        
     }
 }
 </script>
